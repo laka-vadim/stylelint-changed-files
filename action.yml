@@ -91,9 +91,9 @@ runs:
         skip_initial_fetch: ${{ inputs.skip_initial_fetch }}
         use_rest_api: ${{ inputs.use_rest_api }}
         safe_output: ${{ inputs.escape_paths }}
-    - name: Run eslint on changed files
+    - name: Run stylelint on changed files
       run: |
-        # Run eslint on changed files
+        # Run stylelint on changed files
         bash $GITHUB_ACTION_PATH/entrypoint.sh
       id: eslint-changed-files
       shell: bash
