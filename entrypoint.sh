@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-echo "::group::eslint-changed-files"
+echo "::group::stylelint-changed-files"
 
 if [[ -n $INPUT_PATH ]]; then
   REPO_DIR="$GITHUB_WORKSPACE/$INPUT_PATH"
@@ -18,10 +18,10 @@ fi
 
 TEMP_DIR=$(mktemp -d)
 RD_JSON_FILE="$TEMP_DIR/rd.json"
-ESLINT_FORMATTER="$TEMP_DIR/formatter.cjs"
+STYLELINT_FORMATTER="$TEMP_DIR/formatter.cjs"
 
 if [[ "$INPUT_SKIP_ANNOTATIONS" != "true" ]]; then
-  curl -sf -o "$ESLINT_FORMATTER" https://raw.githubusercontent.com/reviewdog/action-eslint/master/eslint-formatter-rdjson/index.js
+  curl -sf -o "$STYLELINT_FORMATTER" https://raw.githubusercontent.com/reviewdog/action-stylelint/master/stylelint-formatter-rdjson/index.js
   # shellcheck disable=SC2034
   export REVIEWDOG_GITHUB_API_TOKEN=$INPUT_TOKEN
 fi
@@ -34,19 +34,19 @@ if [[ -n "$INPUT_CONFIG_PATH" ]]; then
 fi
 
 if [[ "$INPUT_ALL_FILES" == "true" ]]; then
-  echo "Running ESLint on all files..."
+  echo "Running Stylelint on all files..."
   if [[ "$INPUT_SKIP_ANNOTATIONS" == "true" ]]; then
     echo "Skipping annotations..."
     # shellcheck disable=SC2086
-    npx eslint ${CONFIG_ARG} ${EXTRA_ARGS} && exit_status=$? || exit_status=$?
+    npx stylelint ${CONFIG_ARG} ${EXTRA_ARGS} && exit_status=$? || exit_status=$?
   else
     # shellcheck disable=SC2086
-    npx eslint ${CONFIG_ARG} ${EXTRA_ARGS} -f="${ESLINT_FORMATTER}" . > "$RD_JSON_FILE" && exit_status=$? || exit_status=$?
+    npx stylelint ${CONFIG_ARG} ${EXTRA_ARGS} -f="${STYLELINT_FORMATTER}" . > "$RD_JSON_FILE" && exit_status=$? || exit_status=$?
   fi
   
   if [[ "$INPUT_SKIP_ANNOTATIONS" != "true" ]]; then
     reviewdog -f=rdjson \
-      -name=eslint \
+      -name=stylelint \
       -reporter="${INPUT_REPORTER}" \
       -filter-mode="nofilter" \
       -fail-on-error="${INPUT_FAIL_ON_ERROR}" \
@@ -54,26 +54,26 @@ if [[ "$INPUT_ALL_FILES" == "true" ]]; then
   fi
 
   if [[ $exit_status -ne 0 ]]; then
-    echo "::error::Error running eslint."
+    echo "::error::Error running stylelint."
     rm -rf "$TEMP_DIR"
     echo "::endgroup::"
     exit 1;
   fi
 else
   if [[ -n "${INPUT_CHANGED_FILES[*]}" ]]; then
-      echo "Running ESLint on changed files..."
+      echo "Running Stylelint on changed files..."
       if [[ "$INPUT_SKIP_ANNOTATIONS" == "true" ]]; then
         echo "Skipping annotations..."
         # shellcheck disable=SC2086
-        npx eslint ${CONFIG_ARG} ${EXTRA_ARGS} ${INPUT_CHANGED_FILES} && exit_status=$? || exit_status=$?
+        npx stylelint ${CONFIG_ARG} ${EXTRA_ARGS} ${INPUT_CHANGED_FILES} && exit_status=$? || exit_status=$?
       else
         # shellcheck disable=SC2086
-        npx eslint ${CONFIG_ARG} ${EXTRA_ARGS} -f="${ESLINT_FORMATTER}" ${INPUT_CHANGED_FILES} > "$RD_JSON_FILE" && exit_status=$? || exit_status=$?
+        npx stylelint ${CONFIG_ARG} ${EXTRA_ARGS} -f="${STYLELINT_FORMATTER}" ${INPUT_CHANGED_FILES} > "$RD_JSON_FILE" && exit_status=$? || exit_status=$?
       fi
       
       if [[ "$INPUT_SKIP_ANNOTATIONS" != "true" ]]; then
         reviewdog -f=rdjson \
-          -name=eslint \
+          -name=stylelint \
           -reporter="${INPUT_REPORTER}" \
           -filter-mode="nofilter" \
           -fail-on-error="${INPUT_FAIL_ON_ERROR}" \
@@ -81,7 +81,7 @@ else
       fi
 
       if [[ $exit_status -ne 0 ]]; then
-        echo "::error::Error running eslint."
+        echo "::error::Error running stylelint."
         rm -rf "$TEMP_DIR"
         echo "::endgroup::"
         exit 1;

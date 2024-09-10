@@ -1,5 +1,5 @@
-name: ESLint changed files
-description: Run ESLint on all changed files
+name: Stylelint changed files
+description: Run Stylelint on all changed files
 author: jackton1
 inputs:
   token:
@@ -7,24 +7,24 @@ inputs:
     required: true
     default: ${{ github.token }}
   all_files:
-    description: "Run [ESlint](https://eslint.org) on all matching files."
+    description: "Run [Stylelint](https://stylelint.io) on all matching files."
     required: false
     default: 'false'
   config_path:
-    description: "[ESLint](https://eslint.org/) [configuration file](https://eslint.org/docs/user-guide/configuring/). Optionally omit this input for Mono repositories."
+    description: "[Stylelint](https://stylelint.io) [configuration file](https://stylelint.io/user-guide/configure). Optionally omit this input for Mono repositories."
     required: false
     default: ''
   ignore_patterns:
-    description: "[ESLint](https://eslint.org/docs/latest/use/configure/ignore) [configuration file](https://eslint.org/docs/latest/use/configure/ignore#ignoring-files) ignores key. Optionally ignoring files in the `ignores` key from being passed to ESLint, this input would be ignored when `all_files` is set to `true`."
+    description: "[Stylelint](https://stylelint.io) [configuration file](https://stylelint.io/user-guide/configure#ignorefiles) ignores key. Optionally ignoring files in the `ignores` key from being passed to Stylelint, this input would be ignored when `all_files` is set to `true`."
     required: false
     default: ''
   file_extensions:
-    description: "List of file extensions to watch for changes and run [ESlint](https://eslint.org/) against."
+    description: "List of file extensions to watch for changes and run [Stylelint](https://stylelint.io) against."
     required: false
     default: |
-      **/*.{ts,tsx,js,jsx}
+      **/*.{css,scss,sass,less}
   extra_args:
-    description: "Extra arguments passed to [ESlint](https://eslint.org/docs/user-guide/command-line-interface)"
+    description: "Extra arguments passed to [Stylelint](https://stylelint.io/user-guide/cli)"
     required: false
     default: ''
   skip_annotations:
