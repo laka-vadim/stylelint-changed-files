@@ -41,7 +41,7 @@ if [[ "$INPUT_ALL_FILES" == "true" ]]; then
     npx stylelint ${CONFIG_ARG} ${EXTRA_ARGS} && exit_status=$? || exit_status=$?
   else
     # shellcheck disable=SC2086
-    npx stylelint ${CONFIG_ARG} ${EXTRA_ARGS} --custom-formatter "${STYLELINT_FORMATTER}" . > "$RD_JSON_FILE" && exit_status=$? || exit_status=$?
+    npx stylelint ${CONFIG_ARG} ${EXTRA_ARGS} --custom-formatter ${STYLELINT_FORMATTER} . > "$RD_JSON_FILE" && exit_status=$? || exit_status=$?
   fi
   
   if [[ "$INPUT_SKIP_ANNOTATIONS" != "true" ]]; then
@@ -69,7 +69,7 @@ else
         npx stylelint ${CONFIG_ARG} ${EXTRA_ARGS} ${INPUT_CHANGED_FILES} && exit_status=$? || exit_status=$?
       else
         # shellcheck disable=SC2086
-        npx stylelint ${CONFIG_ARG} ${EXTRA_ARGS} --custom-formatter "${STYLELINT_FORMATTER}" ${INPUT_CHANGED_FILES} > "$RD_JSON_FILE" && exit_status=$? || exit_status=$?
+        npx stylelint ${CONFIG_ARG} ${EXTRA_ARGS} --custom-formatter ${STYLELINT_FORMATTER} ${INPUT_CHANGED_FILES} > "$RD_JSON_FILE" && exit_status=$? || exit_status=$?
       fi
       
       if [[ "$INPUT_SKIP_ANNOTATIONS" != "true" ]]; then
