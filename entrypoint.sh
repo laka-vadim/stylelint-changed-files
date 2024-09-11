@@ -71,6 +71,12 @@ else
         # shellcheck disable=SC2086
         npx stylelint ${CONFIG_ARG} ${EXTRA_ARGS} --custom-formatter ${STYLELINT_FORMATTER} ${INPUT_CHANGED_FILES} > "$RD_JSON_FILE" && exit_status=$? || exit_status=$?
       fi
+
+      # Вывод содержимого файла $RD_JSON_FILE
+      if [[ -f "$RD_JSON_FILE" ]]; then
+        echo "Contents of $RD_JSON_FILE:"
+        cat "$RD_JSON_FILE"
+      fi
       
       if [[ "$INPUT_SKIP_ANNOTATIONS" != "true" ]]; then
         reviewdog -f=rdjson \
