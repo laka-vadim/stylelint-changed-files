@@ -54,11 +54,11 @@ if [[ "$INPUT_ALL_FILES" == "true" ]]; then
   fi
 
   stylelint_rc=$?
-  if [ $stylelint_rc -ne 0 ] && [ $stylelint_rc -ne 2 ]; then
+  if [ $exit_status -ne 0 ] && [ $exit_status -ne 2 ]; then
     echo "::error::Error running stylelint."
     rm -rf "$TEMP_DIR"
     echo "::endgroup::"
-    exit $stylelint_rc;
+    exit $exit_status;
   fi
 else
   if [[ -n "${INPUT_CHANGED_FILES[*]}" ]]; then
@@ -88,12 +88,11 @@ else
           -level="${INPUT_LEVEL}" < "$RD_JSON_FILE" || true
       fi
 
-      stylelint_rc=$?
-      if [ $stylelint_rc -ne 0 ] && [ $stylelint_rc -ne 2 ]; then
+      if [ $exit_status -ne 0 ] && [ $exit_status -ne 2 ]; then
         echo "::error::Error running stylelint."
         rm -rf "$TEMP_DIR"
         echo "::endgroup::"
-        exit $stylelint_rc;
+        exit $exit_status;
       fi
   else
       echo "Skipping: No files to lint"
