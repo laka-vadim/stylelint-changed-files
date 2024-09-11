@@ -18,7 +18,7 @@ fi
 
 TEMP_DIR=$(mktemp -d)
 RD_JSON_FILE="$TEMP_DIR/rd.json"
-STYLELINT_FORMATTER="$TEMP_DIR/formatter.cjs"
+STYLELINT_FORMATTER="$TEMP_DIR/formatter.js"
 
 if [[ "$INPUT_SKIP_ANNOTATIONS" != "true" ]]; then
   curl -sf -o "$STYLELINT_FORMATTER" https://raw.githubusercontent.com/reviewdog/action-stylelint/master/stylelint-formatter-rdjson/index.js
@@ -76,6 +76,7 @@ else
       if [[ -f "$RD_JSON_FILE" ]]; then
         echo "Contents of $RD_JSON_FILE:"
         cat "$RD_JSON_FILE"
+        echo "End of $RD_JSON_FILE:"
       fi
       
       if [[ "$INPUT_SKIP_ANNOTATIONS" != "true" ]]; then
